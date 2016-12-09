@@ -13,8 +13,30 @@ router.get('/', function(req, res, next) {
 router.get("/newUser", function(req, res, next){
   console.log('got to new user');
   dataApi.getNewUser().then(function(user){
-    res.json(user);
+    res.json(user.toJson());
   })
+});
+
+// Check Auth token
+router.get("/checkAuth", function(req, res, next){
+  res.json(req.headers)
+})
+
+// Get Specific User
+router.get("/user", function(req, res, next){
+  if(!req.headers.authorization){
+    return res.status(401).send({
+      message: "Sorry, you do not have access to this page"
+    });
+  } else {
+    var token = req.headers.authorization.split(" ")[1]
+    var payload = jwt.decode(token, process.env.SECRET)
+    if(payload.sub){
+      dataApi.getUser(payload.sub).then(function(user){
+        res.json(user.toJson())
+      })
+    }
+  }
 });
 
 
