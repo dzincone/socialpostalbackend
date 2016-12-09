@@ -6,7 +6,6 @@
   function HomeCtrl($rootScope, $window, $scope, $state, authInterceptor, authToken, dataApi) {
       var vm = this;
       document.title = "Social Postal";
-      console.log('hello');
 
     angular.element($window).on('resize', function () {
       $scope.$apply(function () {
@@ -15,27 +14,35 @@
     });
 
     vm.loadPage = function(){
-      dataApi.getNewUser().then(function(data){
-        vm.user = data;
-        console.log(vm.user);
-      });
-      vm.height = window.innerHeight + 'px';
+        dataApi.getNewUser().then(function(data){
+          vm.user = data;
+        });
+        vm.height = window.innerHeight + 'px';
     };
 
 
     vm.signUp = function(user){
-      console.log(user);
       dataApi.registerUser(user).then(function(data){
         if(data.success){
-          console.log('has message');
           $state.go('user', {register: true});
         }
-        console.log('completed');
-        console.log(data);
       }, function(err){
-        console.log('had some trouble here');
+        vm.user.password = '';
+        vm.user.confirmpassword = '';
+        console.log(err);
       })
     };
+
+    vm.signIn = function(user){
+      dataApi.loginUser(user).then(function(data){
+        if(data.success){
+          $state.go('user');
+        }
+      }, function(err){
+        vm.user.password = '';
+        console.log(err);
+      })
+    }
 
     vm.loadPage();
 

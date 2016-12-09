@@ -53,16 +53,30 @@ router.post('/register', function(req, res, next){
       success: true,
       token: token
     })
+  }, function(err){
+    res.status(400).send({
+      message: err
+    });
   })
-  console.log('got it');
 });
 
 // Login as User
 router.post('/login', function(req, res, next){
   dataApi.loginUser(req.body).then(function(data){
+    var payload = {
+      iss: req.hostname,
+      sub: data._id
+    }
+    var token = jwt.encode(payload, process.env.SECRET)
     res.send({
-      id_token: createToken(data)
-      })
+      user: data.toJson(),
+      success: true,
+      token: token
+    })
+  }, function(err){
+    res.status(400).send({
+      message: err
+    });
   })
 });
 

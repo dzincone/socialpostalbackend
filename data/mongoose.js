@@ -57,7 +57,16 @@ module.exports = {
     var hash = bcrypt.hashSync(obj.password, 8);
     obj.password = hash;
     delete obj.confirmpassword;
-    return Users.findByIdAndUpdate(obj._id, obj, {upsert: true, new: true})
+    return Users.findOne({email: obj.email}).then(function(user){
+      if(user){
+        return new Promise(function(resolve, reject){
+          reject("Email has already been used to sign up");
+        });
+      } else {
+      return Users.findByIdAndUpdate(obj._id, obj, {upsert: true, new: true});
+      }
+    });
+  
   },
   // Post User for Login
   loginUser: function(obj){
@@ -66,8 +75,15 @@ module.exports = {
       if (crypt){
         return data
       } else {
-        console.log("passwords did not match");
+        return new Promise(function(resolve, reject){
+          reject("Email/Password combination did not match.")
+        });
       }
+    }, function(err){
+
+      console.log('could not find the email');
+      console.log(err);
+      return err
     })
   }
   // // Get League

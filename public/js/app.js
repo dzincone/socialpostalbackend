@@ -9,7 +9,7 @@ var app = angular.module("socialpostal", ['ui.router', 'ui.bootstrap'])
         $urlRouterProvider.otherwise('/');
 
         $locationProvider.html5Mode(true);
-        
+
         $httpProvider.interceptors.push('authInterceptor')
 
 
@@ -17,9 +17,15 @@ var app = angular.module("socialpostal", ['ui.router', 'ui.bootstrap'])
 
   .constant('API', 'http://localhost:3000/api/')
 
-  .run(function ($state) {
-      $state.go('home');
-  });
+  .run(function ($state, $rootScope, dataApi) {
+     dataApi.checkAuth().then(function(auth){
+        if(auth){
+          $state.go('user')
+        }
+      }, function(err){
+        $state.go('home');
+      })
+});
 
   function InitializeTheApp() {
     angular.bootstrap(document, ["socialpostal"]);

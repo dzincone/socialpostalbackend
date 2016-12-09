@@ -18,7 +18,6 @@
             }
             else {
                 $http.defaults.headers.common.Authorization = "Bearer " + authToken;
-                console.log($http.defaults.headers.common.Authorization);
                 var url = API + 'checkAuth';
                 $http.get(url)
                     .success(function (data) {
@@ -35,12 +34,35 @@
         return deferred.promise;
       }
 
+      function checkAuth(){
+        var deferred = $q.defer();
+          var authToken = localStorage.getItem("socialPostalToken");
+
+          if (authToken == null || authToken.length < 10) {
+              if (localStorage.getItem("socialPostalToken")) localStorage.removeItem("socialPostalToken")
+              deferred.reject("No Credentials");
+          }
+          else {
+              $http.defaults.headers.common.Authorization = "Bearer " + authToken;
+              var url = API + 'checkAuth';
+              $http.get(url)
+                  .success(function (data) {
+                      deferred.resolve(data);
+                  })
+                  .error(function () {
+                      //console.log("login checkauth error");
+                      if (localStorage.getItem("socialPostalToken")) localStorage.removeItem("socialPostalToken")
+                      deferred.reject("Error with getting user");
+                  });
+          }
+
+        return deferred.promise
+      }
+
       function registerUser(user){
-        console.log(user);
         var deferred = $q.defer();
         var d = angular.toJson(user);
         var url = API + 'register';
-        console.log(url);
         $http({
           method: "POST",
           url: url,
@@ -52,8 +74,7 @@
               deferred.resolve(data)
             })
            .error(function (data, status, headers, config) {
-               var message = alert('warning', "Ooops", "Could not register")
-               deferred.reject(message);
+               deferred.reject(data);
            });
         return deferred.promise
       }
@@ -61,7 +82,6 @@
       function loginUser(user){
         var deferred = $q.defer();
         var d = angular.toJson(user);
-        console.log(d, "new user");
         var url = API + "login";
         $http({
           method: "POST",
@@ -70,16 +90,16 @@
           headers: { 'Content-Type': 'application/json'}
         })
             .success(function(data) {
+              authToken.setToken(data.token)
               deferred.resolve(data)
             })
            .error(function (data, status, headers, config) {
-               deferred.reject();
+               deferred.reject(data);
            });
         return deferred.promise
       }
 
       function getNewUser(){
-        console.log('getting new user now');
         var deferred = $q.defer();
         var url = API + "newUser"
         $http.get(url)
@@ -87,7 +107,7 @@
                 deferred.resolve(data);
             })
             .error(function (data, status, headers, config) {
-                deferred.reject();
+                deferred.reject(data);
             });
           return deferred.promise
       }
@@ -98,11 +118,9 @@
           var url = API + "user"
           $http.get(url)
             .success(function (data) {
-                console.log(data);
                 deferred.resolve(data);
             })
             .error(function (err) {
-                console.log(err);
                 deferred.reject(err);
             });
         }, function(reason){
@@ -153,6 +171,7 @@
 
 
       return {
+        checkAuth: checkAuth,
         registerUser: registerUser,
         loginUser: loginUser,
         getUsers: getUsers,
