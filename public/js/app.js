@@ -4,6 +4,7 @@ var app = angular.module("socialpostal", ['ui.router', 'ui.bootstrap'])
         $stateProvider
             .state('home', { url: "/", templateUrl: "templates/home/home.html" })
             .state('user', { url: "/user", params: {register: false}, templateUrl: "templates/users/user.html" })
+            .state('success', { url: "/success", templateUrl: "templates/home/success.html" })
             ;
 
         $urlRouterProvider.otherwise('/');
@@ -17,15 +18,30 @@ var app = angular.module("socialpostal", ['ui.router', 'ui.bootstrap'])
 
   .constant('API', 'http://localhost:3000/api/')
 
-  .run(function ($state, $rootScope, dataApi) {
-     dataApi.checkAuth().then(function(auth){
-        if(auth){
-          $state.go('user')
-        }
-      }, function(err){
-        $state.go('home');
-      })
-});
+  .run(function ($state, $rootScope, $window, dataApi) {
+    var success = false;
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+      if (toState.name === 'success'){
+        return;
+      } else {
+        dataApi.checkAuth().then(function(auth){
+          if(auth){
+            $state.go('user');
+          } else {
+            console.log('uh oh');
+          }
+        }, function(err){
+          console.log('error with auth');
+            return;
+        })
+      }
+    });
+    // if(!success){
+    //
+    // } else {
+    //   $state.go('success');
+    // }
+  });
 
   function InitializeTheApp() {
     angular.bootstrap(document, ["socialpostal"]);

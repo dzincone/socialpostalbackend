@@ -4,11 +4,62 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('cookie-session')
 require('dotenv').load();
+var passport = require('passport');
+var TwitterStrategy = require('passport-twitter').Strategy;
+var LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
+
+
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user);
+});
+
+passport.deserializeUser(function(obj, cb) {
+  cb(null, obj);
+});
+
+passport.use(new TwitterStrategy({
+    consumerKey: process.env.TWITTER_CLIENT_ID,
+    consumerSecret: process.env.TWITTER_CLIENT_SECRET,
+    callbackURL: "http://localhost:3000/api/auth/twitter/callback"
+}, function(token, tokenSecret, profile, cb) {
+  process.nextTick(function() {
+    // var returnToken = {};
+    console.log('----------------------');
+    console.log(token, tokenSecret);
+    // returnToken.oauth_token = token;
+    // returnToken.user_id = profile.id;
+    // console.log(returnToken);
+    profile.token = token;
+    profile.tokenSecret = tokenSecret;
+    return cb(null, profile);
+  });
+}));
+
+passport.use(new LinkedInStrategy({
+  clientID: process.env.LINKEDIN_CLIENT_ID,
+  clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
+    // callbackURL: "http://localhost:3000/auth/linkedin/callback",
+  callbackURL: "http://localhost:3000/api/auth/linkedin/callback",
+  scope: ['r_emailaddress', 'r_basicprofile', 'w_share', 'rw_company_admin']
+}, function(accessToken, refreshToken, profile, done) {
+  process.nextTick(function () {
+    console.log('-----------------');
+    console.log(accessToken);
+    profile.accessToken = accessToken;
+    // profile.refreshToken = refreshToken;
+    // console.log(profile);
+    return done(null, profile);
+  });
+}));
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var api = require('./routes/api');
+var socialMedia = require('./routes/socialMedia');
 
 var app = express();
 
@@ -23,6 +74,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({ keys: [process.env.SESSION_KEY1, process.env.SESSION_KEY2] }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(function(req, res, next){
     res.locals.user = req.session;
@@ -38,6 +92,7 @@ app.use(function(req, res, next) {
 app.use('/', routes);
 app.use('/users', users);
 app.use('/api', api);
+app.use('/api', socialMedia)
 
 app.get('*', function(req, res) {
   res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)

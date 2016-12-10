@@ -142,6 +142,28 @@
         return deferred.promise
       }
 
+      function signOutMedia(media){
+        var deferred = $q.defer();
+        login().then(function(){
+          var url = API + 'signOutMedia';
+          var d = angular.toJson({media: media});
+          $http({
+            method: "POST",
+            url: url,
+            data: d,
+            headers: { 'Content-Type': 'application/json'}
+          })
+              .success(function(data) {
+                deferred.resolve(data)
+              })
+             .error(function (data, status, headers, config) {
+               console.log(data);
+                 deferred.reject(data);
+             });
+        })
+        return deferred.promise;
+      }
+
       // function getLeague(id){
       //   var deferred = $q.defer();
       //   var url = "http://localhost:3000/api/league"
@@ -177,6 +199,7 @@
         getUsers: getUsers,
         getNewUser: getNewUser,
         getUser: getUser,
+        signOutMedia: signOutMedia
       }
     }
 })()

@@ -9,9 +9,9 @@ var userSchema = new mongoose.Schema({
   email: {type: String, default: ""},
   password: {type: String, default: ""},
   posts: {type: Array, default: []},
-  twitterCreds: {type: String, default: ""},
-  linkedinCreds: {type: String, default: ""},
-  facebookCreds: {type: String, default: ""}
+  twitterCreds: {},
+  linkedinCreds: {},
+  facebookCreds: {}
 });
 // Post Schema
 var postSchema = new mongoose.Schema({
@@ -66,7 +66,7 @@ module.exports = {
       return Users.findByIdAndUpdate(obj._id, obj, {upsert: true, new: true});
       }
     });
-  
+
   },
   // Post User for Login
   loginUser: function(obj){
@@ -85,6 +85,36 @@ module.exports = {
       console.log(err);
       return err
     })
+  },
+
+  // Update Credentials
+  updateCreds: function(media, obj){
+    var newObj = {};
+    switch(media){
+      case 'twitter':
+        newObj.profile = obj.creds;
+        newObj.auth = obj.auth;
+        return Users.findByIdAndUpdate(obj.id, {twitterCreds: newObj}, {upsert: true, new: true});
+        break;
+      case 'linkedin':
+        newObj.profile = obj.creds;
+        newObj.auth = obj.auth;
+        return Users.findByIdAndUpdate(obj.id, {linkedinCreds: newObj}, {upsert: true, new: true});
+    }
+  },
+
+  signOutMedia: function(obj, media){
+    console.log('signoutmedia');
+    console.log(obj);
+    console.log(media);
+    switch(media){
+      case 'twitter':
+        return Users.findByIdAndUpdate(obj, {twitterCreds: ''}, {new: true});
+        break;
+      case 'linkedin':
+        return Users.findByIdAndUpdate(obj, {linkedinCreds: ''}, {new: true});
+        break;
+    }
   }
   // // Get League
   // getLeague: function(id){
