@@ -51,7 +51,7 @@ passport.use(new TwitterStrategy({
 passport.use(new LinkedInStrategy({
   clientID: process.env.LINKEDIN_CLIENT_ID,
   clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
-  callbackURL: process.env.URL + 'auth/linkedin/callback'
+  callbackURL: process.env.URL + 'auth/linkedin/callback',
   scope: ['r_emailaddress', 'r_basicprofile', 'w_share', 'rw_company_admin']
 }, function(accessToken, refreshToken, profile, done) {
   process.nextTick(function () {
