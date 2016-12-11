@@ -16,7 +16,7 @@ var app = angular.module("socialpostal", ['ui.router', 'ui.bootstrap'])
 
     })
 
-  .constant('API', 'http://localhost:3000/api/')
+  .constant('API', process.env.URL)
 
   .run(function ($state, $rootScope, $window, dataApi) {
     var success = false;

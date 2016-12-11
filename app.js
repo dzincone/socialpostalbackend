@@ -23,7 +23,7 @@ passport.deserializeUser(function(obj, cb) {
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_ID,
   clientSecret: process.env.FACEBOOK_SECRET,
-  callbackURL: "http://localhost:3000/api/auth/facebook/callback",
+  callbackURL: process.env.URL + 'auth/facebook/callback',
   profileFields: ['id', 'email', 'picture']
 }, function(accessToken, refreshToken, profile, done) {
   process.nextTick(function () {
@@ -37,7 +37,7 @@ passport.use(new FacebookStrategy({
 passport.use(new TwitterStrategy({
     consumerKey: process.env.TWITTER_CLIENT_ID,
     consumerSecret: process.env.TWITTER_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/api/auth/twitter/callback"
+    callbackURL: process.env.URL + 'auth/twitter/callback',
 }, function(token, tokenSecret, profile, cb) {
   process.nextTick(function() {
     console.log('----------------------');
@@ -51,7 +51,7 @@ passport.use(new TwitterStrategy({
 passport.use(new LinkedInStrategy({
   clientID: process.env.LINKEDIN_CLIENT_ID,
   clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
-  callbackURL: "http://localhost:3000/api/auth/linkedin/callback",
+  callbackURL: process.env.URL + 'auth/linkedin/callback'
   scope: ['r_emailaddress', 'r_basicprofile', 'w_share', 'rw_company_admin']
 }, function(accessToken, refreshToken, profile, done) {
   process.nextTick(function () {
