@@ -8,16 +8,12 @@
 
 
     vm.loadPage = function(){
-      console.log('inside user controller');
-      console.log($stateParams);
       dataApi.getUser().then(function(user){
-        console.log(user);
         vm.user = user;
         if($stateParams.register){
           vm.newUser = true;
         }
       }, function(err){
-        console.log(err);
         $state.go('home');
       });
     };
@@ -91,7 +87,6 @@
 
     vm.signOutMedia = function(media){
       dataApi.signOutMedia(media).then(function(user){
-        console.log(user);
         switch(media){
           case 'twitter':
             vm.user.twitterCreds = user.twitterCreds;
@@ -103,6 +98,14 @@
             vm.user.facebookCreds = user.facebookCreds;
             break;
         }
+      })
+    };
+
+    vm.postNow = function(){
+      dataApi.postMedia(vm.user).then(function(post){
+
+      }, function(err){
+
       })
     }
 

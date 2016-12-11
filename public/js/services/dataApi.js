@@ -164,32 +164,29 @@
         return deferred.promise;
       }
 
-      // function getLeague(id){
-      //   var deferred = $q.defer();
-      //   var url = "http://localhost:3000/api/league"
-      //   if(id) url += ("?id=" + id)
-      //   $http.get(url)
-      //       .success(function (data) {
-      //           deferred.resolve(data);
-      //       })
-      //       .error(function (data, status, headers, config) {
-      //           deferred.reject();
-      //       });
-      //     return deferred.promise
-      // }
+      function postMedia(user){
+        var deferred = $q.defer();
 
-      // function getLeagues(){
-      //   var deferred = $q.defer();
-      //   var url = "http://localhost:3000/api/leagues"
-      //   $http.get(url)
-      //       .success(function (data) {
-      //           deferred.resolve(data);
-      //       })
-      //       .error(function (data, status, headers, config) {
-      //           deferred.reject();
-      //       });
-      //     return deferred.promise
-      // }
+        login().then(function(){
+          var url = API + 'postMedia';
+          var d = angular.toJson(user);
+          $http({
+            method: 'POST',
+            url: url,
+            data: d,
+            headers: {'Content-Type': 'application/json'}
+          })
+              .success(function(data){
+                deferred.resolve(data);
+              })
+              .error(function(data, status, headers, config){
+                console.log(data);
+                deferred.reject(data);
+              });
+        });
+
+        return deferred. promise;
+      }
 
 
       return {
@@ -199,7 +196,8 @@
         getUsers: getUsers,
         getNewUser: getNewUser,
         getUser: getUser,
-        signOutMedia: signOutMedia
+        signOutMedia: signOutMedia,
+        postMedia: postMedia
       }
     }
 })()

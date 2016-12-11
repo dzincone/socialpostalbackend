@@ -11,7 +11,6 @@
                 },
                 templateUrl: "templates/directives/userHeader.html",
                 link: function (scope, elem, attrs) {
-          console.log('hi');
 
           var watcherUser = scope.$watch('user', function () {
               if (scope.user === undefined) return;

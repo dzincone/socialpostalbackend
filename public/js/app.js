@@ -31,7 +31,6 @@ var app = angular.module("socialpostal", ['ui.router', 'ui.bootstrap'])
             console.log('uh oh');
           }
         }, function(err){
-          console.log('error with auth');
             return;
         })
       }

@@ -100,6 +100,12 @@ module.exports = {
         newObj.profile = obj.creds;
         newObj.auth = obj.auth;
         return Users.findByIdAndUpdate(obj.id, {linkedinCreds: newObj}, {upsert: true, new: true});
+        break;
+      case 'facebook':
+        newObj.profile = obj.creds;
+        newObj.auth = obj.auth;
+        return Users.findByIdAndUpdate(obj.id, {facebookCreds: newObj}, {upsert: true, new: true});
+        break;
     }
   },
 
@@ -113,6 +119,9 @@ module.exports = {
         break;
       case 'linkedin':
         return Users.findByIdAndUpdate(obj, {linkedinCreds: ''}, {new: true});
+        break;
+      case 'facebook':
+        return Users.findByIdAndUpdate(obj, {facebookCreds: ''}, {new: true});
         break;
     }
   }

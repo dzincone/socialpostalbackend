@@ -1,83 +1,181 @@
 <div ng-controller="UserCtrl as vm" style="padding-top: 50px;">
   <user-header user="vm.user"></user-header>
   <div class="container-fluid">
-    <div class="row" style="padding-top: 20px; padding-bottom: 20px;">
 
+    <!-- Connection Section -->
+    <div class="row" style="padding-top: 20px; padding-bottom: 20px;">
       <!-- Twitter -->
       <div class="col-xs-4 text-center">
-        <div class="col-xs-8 col-xs-offset-2" style="border: {{vm.user.twitterCreds ? '3px dashed #5BB55B' : '3px dashed orange'}}; border-radius: 5px; background-color: #2977b7; padding-bottom: 10px; padding-top: 10px; position: realtive;">
+        <div class="col-xs-10 col-xs-offset-1" style="border: {{vm.user.twitterCreds ? '3px dashed #5BB55B' : '3px dashed orange'}}; border-radius: 5px; background-color: #2977b7; padding-bottom: 0; padding-top: 5px; padding-left: 5px; padding-right: 5px; position: realtive;">
           <i ng-if="!vm.user.twitterCreds" class="fa fa-twitter-square"
              aria-hidden="true"
              style="font-size: 4em; color: orange; cursor: pointer; padding-bottom: 5px;"></i>
           <p ng-if="!vm.user.twitterCreds" style="color: white;">Connect to Twitter so you can tweet. The world needs to know your thoughts!</p>
           <button ng-if="!vm.user.twitterCreds" type="button" class="btn btn-warning btn-default" ng-click="vm.signInMedia('twitter')">Sign In</button>
 
-          <i ng-if="vm.user.twitterCreds" class="fa fa-twitter-square"
-             aria-hidden="true"
-             style="font-size: 2em; color: white; cursor: pointer; position: absolute; top: 5px; right: 5px;"></i>
-          <div ng-if="vm.user.twitterCreds" class="col-xs-6 col-xs-offset-3" style="padding-bottom: 5px;">
-            <img height="54" width="54" ng-src="{{vm.user.twitterCreds.profile.profile_image_url}}">
+          <div class="row" style="display: flex; align-items: flex-end;">
+            <i ng-if="vm.user.twitterCreds" class="fa fa-twitter-square"
+               aria-hidden="true"
+               style="font-size: 2em; color: white; cursor: pointer; position: absolute; top: 5px; right: 5px;"></i>
+            <div ng-if="vm.user.twitterCreds" class="col-xs-6 text-left">
+              <img height="60" width="60" ng-src="{{vm.user.twitterCreds.profile.profile_image_url}}" class="img-rounded">
+            </div>
+            <div class="col-xs-6 text-right">
+              <button ng-if="vm.user.twitterCreds" type="button" class="btn btn-info btn-xs" ng-click="vm.signOutMedia('twitter')">Sign Out</button>
+            </div>
           </div>
-          <p ng-if="vm.user.twitterCreds" style="color: orange;">@{{vm.user.twitterCreds.profile.screen_name}}</p>
-          <!-- <p ng-if="vm.user.twitterCreds" style="color: white; margin: 0;">Followers: <span style="color: orange">{{vm.user.twitterCreds.profile.followers_count}}</span></p>
-          <p ng-if="vm.user.twitterCreds" style="color: white; margin: 0;">Friends: <span style="color: orange">{{vm.user.twitterCreds.profile.friends_count}}</span></p>
-          <p ng-if="vm.user.twitterCreds" style="color: white; margin: 0;">Total Posts: <span style="color: orange">{{vm.user.twitterCreds.profile.friends_count}}</span></p> -->
-          <button ng-if="vm.user.twitterCreds" type="button" class="btn btn-info btn-xs" ng-click="vm.signOutMedia('twitter')">Sign Out</button>
+
+          <div class="row" style="padding-top: 5px; padding-bottom: 5px;">
+            <div class="col-xs-12">
+              <p style="margin: 0; border-radius: 4px; background-color: #3e84be; color: orange;" ng-if="vm.user.twitterCreds" style="color: orange;">@{{vm.user.twitterCreds.profile.screen_name}}</p>
+            </div>
+          </div>
 
         </div>
       </div>
 
       <!-- Facebook -->
       <div class="col-xs-4 text-center">
-        <div class="col-xs-8 col-xs-offset-2" style="border: 3px dashed orange; border-radius: 5px; background-color: #2977b7; padding-bottom: 10px; padding-top: 10px;">
-          <i class="fa fa-facebook-square"
+        <div class="col-xs-10 col-xs-offset-1" style="border: {{vm.user.facebookCreds ? '3px dashed #5BB55B' : '3px dashed orange'}}; border-radius: 5px; background-color: #2977b7; padding-bottom: 0; padding-top: 5px; padding-left: 5px; padding-right: 5px; position: realtive;">
+          <i ng-if="!vm.user.facebookCreds" class="fa fa-facebook-square"
              aria-hidden="true"
              style="font-size: 4em; color: orange; cursor: pointer; padding-bottom: 5px;"></i>
-          <p style="color: white;">Facebook misses you. Share something for your old highschool friends.</p>
-          <button type="button" class="btn btn-warning btn-default">Sign In</button>
+          <p ng-if="!vm.user.facebookCreds" style="color: white;">Facebook misses you. Share something for your old highschool friends.</p>
+          <button ng-if="!vm.user.facebookCreds" type="button" class="btn btn-warning btn-default" ng-click="vm.signInMedia('facebook')">Sign In</button>
+
+          <div class="row" style="display: flex; align-items: flex-end;">
+            <i ng-if="vm.user.facebookCreds" class="fa fa-facebook-square"
+               aria-hidden="true"
+               style="font-size: 2em; color: white; cursor: pointer; position: absolute; top: 5px; right: 5px;"></i>
+            <div ng-if="vm.user.facebookCreds" class="col-xs-6 text-left">
+              <img height="60" width="60" ng-src="{{vm.user.facebookCreds.profile.picture.data.url}}" class="img-rounded">
+            </div>
+            <div class="col-xs-6 text-right">
+            <button ng-if="vm.user.facebookCreds" type="button" class="btn btn-info btn-xs" ng-click="vm.signOutMedia('facebook')">Sign Out</button>
+            </div>
+          </div>
+
+          <div class="row" style="padding-top: 5px; padding-bottom: 5px;">
+            <div class="col-xs-12">
+              <p style="margin: 0; border-radius: 4px; background-color: #3e84be; color: orange;" ng-if="vm.user.facebookCreds" style="color: orange;">{{vm.user.facebookCreds.profile.email}}</p>
+            </div>
+          </div>
 
         </div>
       </div>
 
       <!-- Linkedin -->
       <div class="col-xs-4 text-center">
-        <div class="col-xs-8 col-xs-offset-2" style="border: {{vm.user.linkedinCreds ? '3px dashed #5BB55B' : '3px dashed orange'}}; border-radius: 5px; background-color: #2977b7; padding-bottom: 10px; padding-top: 10px;">
+        <div class="col-xs-10 col-xs-offset-1" style="border: {{vm.user.linkedinCreds ? '3px dashed #5BB55B' : '3px dashed orange'}}; border-radius: 5px; background-color: #2977b7; padding-bottom: 0; padding-top: 5px; padding-left: 5px; padding-right: 5px; position: realtive;">
           <i ng-if="!vm.user.linkedinCreds" class="fa fa-linkedin-square"
              aria-hidden="true"
              style="font-size: 4em; color: orange; cursor: pointer; padding-bottom: 5px;"></i>
           <p ng-if="!vm.user.linkedinCreds" style="color: white;">Feeling Professional? Go ahead and post something for your business friends.</p>
           <button ng-if="!vm.user.linkedinCreds" type="button" class="btn btn-warning btn-default" ng-click="vm.signInMedia('linkedin')">Sign In</button>
 
-          <i ng-if="vm.user.linkedinCreds" class="fa fa-linkedin-square"
-             aria-hidden="true"
-             style="font-size: 2em; color: white; cursor: pointer; position: absolute; top: 5px; right: 5px;"></i>
-          <div ng-if="vm.user.linkedinCreds" class="col-xs-6 col-xs-offset-3" style="padding-bottom: 5px;">
-            <img height="54" width="54" ng-src="{{vm.user.linkedinCreds.profile.pictureUrl}}">
+          <div class="row" style="display: flex; align-items: flex-end">
+            <i ng-if="vm.user.linkedinCreds" class="fa fa-linkedin-square"
+               aria-hidden="true"
+               style="font-size: 2em; color: white; cursor: pointer; position: absolute; top: 5px; right: 5px;"></i>
+            <div ng-if="vm.user.linkedinCreds" class="col-xs-6 text-left">
+              <img ng-if="!vm.user.linkedinCreds.profile.pictureUrl" height="60" width="60" src="../../../img/linkedin-default.png" class="img-rounded">
+              <img ng-if="vm.user.linkedinCreds.profile.pictureUrl" height="60" width="60" ng-src="{{vm.user.linkedinCreds.profile.pictureUrl}}" class="img-rounded">
+            </div>
+            <div class="col-xs-6 text-right">
+              <button ng-if="vm.user.linkedinCreds" type="button" class="btn btn-info btn-xs" ng-click="vm.signOutMedia('linkedin')">Sign Out</button>
+            </div>
           </div>
-          <p ng-if="vm.user.linkedinCreds" style="color: orange;">{{vm.user.linkedinCreds.profile.emailAddress}}</p>
-          <!-- <p ng-if="vm.user.linkedinCreds" style="color: white; margin: 0;">First Name: <span style="color: orange">{{vm.user.linkedinCreds.profile.firstName}}</span></p>
-          <p ng-if="vm.user.linkedinCreds" style="color: white; margin: 0;">Last Name: <span style="color: orange">{{vm.user.linkedinCreds.profile.lastName}}</span></p>
-          <p ng-if="vm.user.linkedinCreds" style="color: white; margin: 0;">Connections: <span style="color: orange">{{vm.user.linkedinCreds.profile.numConnections}}</span></p> -->
-          <button ng-if="vm.user.linkedinCreds" type="button" class="btn btn-info btn-xs" ng-click="vm.signOutMedia('linkedin')">Sign Out</button>
+
+          <div class="row" style="padding-top: 5px; padding-bottom: 5px;">
+            <div class="col-xs-12">
+              <p style="margin: 0; border-radius: 4px; background-color: #3e84be; color: orange;" ng-if="vm.user.linkedinCreds" style="color: orange;">{{vm.user.linkedinCreds.profile.emailAddress}}</p>
+            </div>
+          </div>
 
         </div>
       </div>
 
     </div>
 
+    <!-- Post Section -->
     <div class="row" style="background-color: #205c8d;">
       <div class="col-xs-10 col-xs-offset-1" style="padding-top: 20px; padding-bottom: 20px;">
+
         <div class="col-xs-4">
 
+          <div class="row text-center">
+            <h2 style="color: white; font-family: 'Quicksand', sans-serif;">Choose Your Media</h2>
+          </div>
+
+          <div class="row" style="text-align: center;">
+              <div class="col-xs-4 text-center" ng-if="vm.user.twitterCreds" style="margin-right:-4px; text-align:center; display: inline-block; float: none;">
+                <i class="fa fa-twitter-square"
+                   aria-hidden="true"
+                   ng-mouseenter="vm.user.twitterCreds.active = true"
+                   ng-mouseleave="vm.user.twitterCreds.active = false"
+                   ng-click="vm.user.twitterCreds.focus = !vm.user.twitterCreds.focus"
+                   style="font-size: 3.5em; color: {{vm.user.twitterCreds.active ? 'white' : vm.user.twitterCreds.focus ? 'orange' : 'grey'}}; cursor: pointer;">
+                </i>
+              </div>
+
+              <div class="col-xs-4 text-center" ng-if="vm.user.facebookCreds" style="margin-right:-4px; text-align:center; display: inline-block; float: none;">
+                <i class="fa fa-facebook-square"
+                   aria-hidden="true"
+                   ng-mouseenter="vm.user.facebookCreds.active = true"
+                   ng-mouseleave="vm.user.facebookCreds.active = false"
+                   ng-click="vm.user.facebookCreds.focus = !vm.user.facebookCreds.focus"
+                   style="font-size: 3.5em; color: {{vm.user.facebookCreds.active ? 'white' : vm.user.facebookCreds.focus ? 'orange' : 'grey'}}; cursor: pointer;">
+                </i>
+              </div>
+
+              <div class="col-xs-4 text-center" ng-if="vm.user.linkedinCreds" style="margin-right:-4px; text-align:center; display: inline-block; float: none;">
+                <i class="fa fa-linkedin-square"
+                   aria-hidden="true"
+                   ng-mouseenter="vm.user.linkedinCreds.active = true"
+                   ng-mouseleave="vm.user.linkedinCreds.active = false"
+                   ng-click="vm.user.linkedinCreds.focus = !vm.user.linkedinCreds.focus"
+                   style="font-size: 3.5em; color: {{vm.user.linkedinCreds.active ? 'white' : vm.user.linkedinCreds.focus ? 'orange' : 'grey'}}; cursor: pointer;">
+                </i>
+              </div>
+
+          </div>
         </div>
 
         <div class="col-xs-8">
-          <p style="color: white;">Word Count: {{vm.post.text.length || 0}} <span ng-show="vm.post.text.length >= 140" class="pull-right" style="color: #D9534F;">Twitter will only post the first 140 characters.</span></p>
-          <textarea class="form-control" rows="5" ng-model="vm.post.text"></textarea>
-
+          <p style="color: white;">Word Count: {{vm.post.text.length || 0}} <span ng-if="vm.post.text.length >= 140" class="pull-right" style="color: #D9534F;">Twitter will only post the first 140 characters.</span></p>
+          <textarea class="form-control" rows="4" ng-model="vm.user.text"></textarea>
+          <div class="row" style="padding-top: 5px;">
+            <div class="col-xs-6 text-left">
+              <i ng-if="false" class="fa fa-camera" aria-hidden="true" style="font-size: 2em; color: orange; cursor: pointer;"></i>
+            </div>
+            <div class="col-xs-6 text-right">
+              <button type="button" class="btn btn-danger" style="margin-right: 20px;">Clear</button>
+              <button type="button" class="btn btn-warning" ng-click="vm.postNow()">Post</button>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
 
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1" style="padding-top: 20px; padding-bottom: 20px;">
+
+        <!-- Example Twitter -->
+        <div class="col-xs-4 text-center" ng-if="vm.user.twitterCreds.focus">
+          <h1 style="font-family: 'Quicksand', sans-serif;">Twitter Post</h1>
+        </div>
+
+        <!-- Example Facebook -->
+        <div class="col-xs-4 text-center" ng-if="vm.user.facebookCreds.focus">
+          <h1 style="font-family: 'Quicksand', sans-serif;">Facebook Post</h1>
+        </div>
+
+        <!-- Example Linkedin -->
+        <div class="col-xs-4 text-center" ng-if="vm.user.linkedinCreds.focus">
+          <h1 style="font-family: 'Quicksand', sans-serif;">Linkedin Post</h1>
+        </div>
+
+      </div>
     </div>
 
   </div>
