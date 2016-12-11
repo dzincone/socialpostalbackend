@@ -16,7 +16,7 @@ var app = angular.module("socialpostal", ['ui.router', 'ui.bootstrap'])
 
     })
 
-  .constant('API', process.env.URL)
+  .constant('API', 'https://murmuring-escarpment-65033.herokuapp.com/api/')
 
   .run(function ($state, $rootScope, $window, dataApi) {
     var success = false;
