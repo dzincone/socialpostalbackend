@@ -11,9 +11,6 @@ var Twitter = require('twitter');
 
 router.get('/auth/facebook', function(req, res, next){
   req.session.userId = req. query.id;
-  console.log('***************************');
-  console.log(req.headers.referer);
-  console.log(URL);
   if(req.headers.referer == URL + 'user'){
     next();
   } else {

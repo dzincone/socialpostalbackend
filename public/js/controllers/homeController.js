@@ -16,7 +16,7 @@
     vm.loadPage = function(){
         dataApi.getNewUser().then(function(data){
           vm.user = data;
-          console.log(vm.user);
+          // console.log(vm.user);
         }, function(err){
           console.log(err);
         });
