@@ -13,9 +13,11 @@ router.get('/auth/facebook', function(req, res, next){
   req.session.userId = req. query.id;
   console.log('***************************');
   console.log(req.headers.referer);
+  console.log(URL);
   if(req.headers.referer == URL + 'user'){
     next();
   } else {
+    console.log('some kind of error here');
     res.redirect(URL);
   }
 }, passport.authenticate('facebook', { scope: ['email', 'manage_pages', 'publish_actions'] }));
