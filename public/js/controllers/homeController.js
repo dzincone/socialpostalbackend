@@ -16,6 +16,9 @@
     vm.loadPage = function(){
         dataApi.getNewUser().then(function(data){
           vm.user = data;
+          console.log(vm.user);
+        }, function(err){
+          console.log(err);
         });
         vm.height = window.innerHeight + 'px';
     };

@@ -1,7 +1,16 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+
+mongoose.connection.on('open', function (ref) {
+  console.log('Connected to mongo server.');
+});
+mongoose.connection.on('error', function (err) {
+  console.log('Could not connect to mongo server!');
+  console.log(err);
+});
 mongoose.connect(process.env.MONGODB_URI);
 var bcrypt = require("bcryptjs");
+console.log(mongoose.connection.readyState);
 
 
 // User Schema
