@@ -16,9 +16,9 @@ var app = angular.module("socialpostal", ['ui.router', 'ui.bootstrap', 'ngAnimat
 
     })
 
-  // .constant('API', 'http://www.shiznap.com/api/')
+  .constant('API', 'http://www.shiznap.com/api/')
   // .constant('API', 'https://murmuring-escarpment-65033.herokuapp.com/api/')
-  .constant('API', 'http://localhost:3000/api/')
+  // .constant('API', 'http://localhost:3000/api/')
 
   .run(function ($state, $rootScope, $window, dataApi) {
     var success = false;
