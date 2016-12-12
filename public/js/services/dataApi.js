@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    angular.module("socialpostal").factory('dataApi', ['$state', '$http', '$q', '$timeout', '$location', '$window', "authToken", "API", dataApi]);
-    function dataApi($state, $http, $q, $timeout, $location, $window, authToken, API) {
+    angular.module("socialpostal").factory('dataApi', ['$state', '$http', '$q', '$timeout', '$location', '$window', 'alert', "authToken", "API", dataApi]);
+    function dataApi($state, $http, $q, $timeout, $location, $window, alert, authToken, API) {
 
       function login(){
 
@@ -74,7 +74,8 @@
               deferred.resolve(data)
             })
            .error(function (data, status, headers, config) {
-               deferred.reject(data);
+               var message = alert('danger', 'Uh Oh', data.message)
+               deferred.reject(message);
            });
         return deferred.promise
       }
@@ -91,10 +92,12 @@
         })
             .success(function(data) {
               authToken.setToken(data.token)
-              deferred.resolve(data)
+              var message = alert('success', 'Welcome Back', 'Glad you can make it back. Post away!')
+              deferred.resolve(data, message)
             })
            .error(function (data, status, headers, config) {
-               deferred.reject(data);
+               var message = alert('danger', 'Uh Oh', data.message)
+               deferred.reject(message);
            });
         return deferred.promise
       }
@@ -154,10 +157,10 @@
             headers: { 'Content-Type': 'application/json'}
           })
               .success(function(data) {
-                deferred.resolve(data)
+                var message = alert('warning', 'Bye Bye', 'You have signed out of ' + media)
+                deferred.resolve(data, message)
               })
              .error(function (data, status, headers, config) {
-               console.log(data);
                  deferred.reject(data);
              });
         })
@@ -177,10 +180,11 @@
             headers: {'Content-Type': 'application/json'}
           })
               .success(function(data){
-                deferred.resolve(data);
+                var message = alert('success', 'Congrats', 'Your post was sent successfully!')
+                deferred.resolve(data, message);
               })
               .error(function(data, status, headers, config){
-                console.log(data);
+                
                 deferred.reject(data);
               });
         });

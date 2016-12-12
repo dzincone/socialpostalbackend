@@ -51,7 +51,7 @@
             <div class="col-xs-8 col-xs-offset-2" style="background-color: #205c8d; color: white; border-radius: 4px; padding-top: 10px; padding-bottom: 10px;">
               <h2 style="margin-top: 5px; margin-bottom: 0; color: white;">Sign Up</h2>
             </br>
-              <form>
+              <form novalidate>
                 <div class="form-group">
                   <div class="input-group">
                     <div class="input-group-addon"><i class="fa fa-user" aria-hidden="true" style="color: orange;"></i></div>
@@ -70,17 +70,21 @@
                     <input ng-model="vm.user.passwordconfirm" type="password" class="form-control" placeholder="Confirm Password">
                   </div>
                 </div>
+                <div ng-if="alert.hasBeenShown" class="alert alert-{{alert.type}} animated main-alert text-center" ng-class="{'flipInY': alert.show, 'flipOutY': !alert.show, 'alert-hidden': !alert.hasBeenShown}">
+                  <strong>{{alert.title}}</strong> {{alert.message}}
+                </div>
+
                 <button ng-click="vm.signUp(vm.user)" type="submit" class="btn btn-warning">Sign Up</button>
               </form>
               </br>
-              <p>Already a member | <span ng-click="vm.flipSignIn = !vm.flipSignIn" style="color: orange; cursor: pointer;">Sign In</span></p>
+              <p>Already a member | <span ng-click="vm.flipSignIn = !vm.flipSignIn; vm.user.password = ''; vm.user.passwordconfirm = '';" style="color: orange; cursor: pointer;">Sign In</span></p>
             </div>
           </div>
           <div class="row" ng-if="vm.flipSignIn">
             <div class="col-xs-8 col-xs-offset-2" style="background-color: #205c8d; color: white; border-radius: 4px; padding-top: 10px; padding-bottom: 10px;">
               <h2 style="margin-top: 5px; margin-bottom: 0; color: white;">Sign In</h2>
               </br>
-              <form>
+              <form novalidate>
                 <div class="form-group">
                   <div class="input-group">
                     <div class="input-group-addon"><i class="fa fa-user" aria-hidden="true" style="color: orange;"></i></div>
@@ -93,9 +97,11 @@
                     <input ng-model="vm.user.password" type="password" class="form-control" placeholder="Password">
                   </div>
                 </div>
-                <!-- <div class="pull-left" style="cursor: pointer;" ng-click="vm.flipSignIn = !vm.flipSignIn">Cancel</div> -->
+                <div ng-if="alert.hasBeenShown" class="alert alert-{{alert.type}} animated main-alert text-center" ng-class="{'flipInY': alert.show, 'flipOutY': !alert.show, 'alert-hidden': !alert.hasBeenShown}">
+                  <strong>{{alert.title}}</strong> {{alert.message}}
+                </div>
                 <button type="submit" class="btn btn-warning" ng-click="vm.signIn(vm.user)">Sign In</button>
-                <span ng-click="vm.flipSignIn = !vm.flipSignIn" style="cursor: pointer;">Cancel</span>
+                <span ng-click="vm.flipSignIn = !vm.flipSignIn; vm.user.password = '';" style="cursor: pointer;">Cancel</span>
               </form>
             </div>
           </div>

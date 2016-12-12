@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    angular.module("socialpostal").directive('userHeader', ['authToken', '$state',
-        function (authToken, $state) {
+    angular.module("socialpostal").directive('userHeader', ['authToken', '$state', 'alert',
+        function (authToken, $state, alert) {
             return {
                 restrict: "E",
                 scope: {
@@ -19,6 +19,7 @@
 
           scope.signOut = function(){
             authToken.removeToken();
+            alert('warning', 'Bye Friend', 'Hope to see you again!')
             $state.go('home');
           };
 

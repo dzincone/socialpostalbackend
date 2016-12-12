@@ -25,13 +25,14 @@
 
 
     vm.signUp = function(user){
+      console.log(user);
       dataApi.registerUser(user).then(function(data){
         if(data.success){
           $state.go('user', {register: true});
         }
       }, function(err){
         vm.user.password = '';
-        vm.user.confirmpassword = '';
+        vm.user.passwordconfirm = '';
         console.log(err);
       })
     };

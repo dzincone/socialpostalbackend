@@ -152,7 +152,7 @@ router.get('/auth/twitter/callback',
   });
 
   router.post('/postMedia', function(req, res, next){
-    console.log(req.body);
+    // console.log(req.body);
       if(!req.headers.authorization){
         return res.status(401).send({
           message: "Sorry, you do not have access to this page"
@@ -162,8 +162,7 @@ router.get('/auth/twitter/callback',
         var payload = jwt.decode(token, process.env.SECRET);
         if(payload.sub){
           dataApi.getUser(payload.sub).then(function(user){
-            console.log(user);
-
+            console.log('at least got here');
             var tokens = req.body;
             var status = req.body.text;
             var media, media_id;
@@ -176,10 +175,20 @@ router.get('/auth/twitter/callback',
             } else {
               var twitterStatus = status;
             }
-
+            if(!tokens.facebookCreds){
+              tokens.facebookCreds = {};
+            }
+            if(!tokens.twitterCreds){
+              tokens.twitterCreds = {};
+            }
+            if(!tokens.linkedinCreds){
+              tokens.linkedinCreds = {};
+            }
+            console.log('before we do our ifs');
+            // console.log(tokens.facebookCreds.focus);
             if(tokens.facebookCreds.focus && tokens.twitterCreds.focus && tokens.linkedinCreds.focus){
               // All three
-
+              console.log('something here');
               var client = new Twitter({
                 consumer_key: process.env.TWITTER_CLIENT_ID,
                 consumer_secret: process.env.TWITTER_CLIENT_SECRET,
@@ -265,6 +274,7 @@ router.get('/auth/twitter/callback',
 
             } else if(tokens.facebookCreds.focus && tokens.twitterCreds.focus){
               // FB and TW
+              console.log('facebook and twitter');
               var client = new Twitter({
                 consumer_key: process.env.TWITTER_CLIENT_ID,
                 consumer_secret: process.env.TWITTER_CLIENT_SECRET,
@@ -292,6 +302,7 @@ router.get('/auth/twitter/callback',
 
             } else if(tokens.twitterCreds.focus && tokens.linkedinCreds.focus){
               // TW and LI
+              console.log('twitter and li');
               var client = new Twitter({
                 consumer_key: process.env.TWITTER_CLIENT_ID,
                 consumer_secret: process.env.TWITTER_CLIENT_SECRET,
@@ -354,6 +365,7 @@ router.get('/auth/twitter/callback',
 
             } else if (tokens.twitterCreds.focus){
               // Just TW
+              console.log('here is the twitter thing');
 
               var client = new Twitter({
                 consumer_key: process.env.TWITTER_CLIENT_ID,
@@ -410,6 +422,8 @@ router.get('/auth/twitter/callback',
                   res.json(data)
                 });
               }
+            } else {
+              console.log('failure');
             }
 
 

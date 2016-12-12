@@ -42,6 +42,16 @@ router.get("/user", function(req, res, next){
 
 // Create New User
 router.post('/register', function(req, res, next){
+  console.log(req.body);
+  if(req.body.password != req.body.passwordconfirm){
+    res.status(400).send({
+      message: 'Your passwords did not match.'
+    });
+  } else if (!req.body.email){
+    res.status(400).send({
+      message: 'Your must use a valid email.'
+    });
+  }
   dataApi.registerUser(req.body).then(function(data){
     var payload = {
       iss: req.hostname,
@@ -62,6 +72,11 @@ router.post('/register', function(req, res, next){
 
 // Login as User
 router.post('/login', function(req, res, next){
+  if(!req.body.email){
+    res.status(400).send({
+      message: 'Your must use a valid email.'
+    });
+  }
   dataApi.loginUser(req.body).then(function(data){
     var payload = {
       iss: req.hostname,

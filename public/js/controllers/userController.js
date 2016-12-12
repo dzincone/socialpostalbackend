@@ -1,9 +1,9 @@
 (function(){
   'use strict';
 
-  angular.module('socialpostal').controller('UserCtrl', ['$rootScope', '$window', '$scope', '$stateParams', '$state', 'authInterceptor', 'authToken', 'dataApi', 'API', UserCtrl]);
+  angular.module('socialpostal').controller('UserCtrl', ['$rootScope', '$window', '$scope', '$stateParams', '$state', 'alert', 'authInterceptor', 'authToken', 'dataApi', 'API', UserCtrl]);
 
-  function UserCtrl($rootScope, $window, $scope, $stateParams, $state, authInterceptor, authToken, dataApi, API){
+  function UserCtrl($rootScope, $window, $scope, $stateParams, $state, alert, authInterceptor, authToken, dataApi, API){
     var vm = this;
 
 
@@ -40,12 +40,14 @@
         dataApi.getUser().then(function(user){
           if(user.linkedinCreds){
             vm.user.linkedinCreds = user.linkedinCreds;
+            alert('success', 'Awesome', 'You have logged into Linkedin')
             linkedinWindow.close();
             clearInterval(timer);
           } else {
             counter++;
             if(counter == 60){
               linkedinWindow.close();
+              alert('danger', 'Bad News', 'There was an issue logging into Linkedin')
               clearInterval(timer);
             }
           }
@@ -56,11 +58,13 @@
         dataApi.getUser().then(function(user){
           if(user.facebookCreds){
             vm.user.facebookCreds = user.facebookCreds;
+            alert('success', 'Awesome', 'You have logged into Facebook')
             facebookWindow.close();
             clearInterval(timer);
           } else {
             counter++;
             if(counter == 60){
+              alert('danger', 'Bad News', 'There was an issue logging into Facebook')
               facebookWindow.close();
               clearInterval(timer);
             }
@@ -72,11 +76,13 @@
         dataApi.getUser().then(function(user){
           if(user.twitterCreds){
             vm.user.twitterCreds = user.twitterCreds;
+            alert('success', 'Awesome', 'You have logged into Twitter')
             twitterWindow.close();
             clearInterval(timer);
           } else {
             counter++;
             if(counter == 60){
+              alert('danger', 'Bad News', 'There was an issue logging into Twitter')
               twitterWindow.close();
               clearInterval(timer);
             }
